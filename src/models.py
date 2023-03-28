@@ -8,26 +8,37 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
+class People(Base):
+    __tablename__ = 'people'
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    gender = Column (String(50), nullable=False)
+    pass
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+class Planet(Base):
+    __tablename__ = 'planet'
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    name = Column(String(250), nullable=False)
+    pass
 
-    def to_dict(self):
-        return {}
+class Vehicles(Base):
+    __tablename__ = 'vehicles'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    pass
+
+class Favorites(Base):
+    __tablename__ = 'favorites'
+    id = Column(Integer, primary_key=True)
+    People_id = Column(Integer, ForeignKey('people.id'))
+    people = relationship(People)
+
+    Planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet = relationship(Planet)
+
+    Vehicles_id = Column(Integer, ForeignKey('vehicles.id'))
+    Vehicles = relationship(Vehicles)
+    pass
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
